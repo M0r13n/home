@@ -40,6 +40,6 @@
   tasks:
     - name: Install PiHole
       ansible.builtin.import_tasks: tasks/pi_hole.yml
-    
+
   handlers:
     - ansible.builtin.import_tasks: handlers.yml

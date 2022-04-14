@@ -35,3 +35,15 @@ graph TD
 ```
 
 ## Setup
+
+Install:
+
+`make install`
+
+Test:
+
+`make test`
+
+Run playbook:
+
+`ansible-playbook main.yml`

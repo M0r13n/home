@@ -21,13 +21,13 @@
   become: false
 
 - name: Check if ufw package is installed
-  package:
+  ansible.builtin.package:
     name: ufw
     state: present
   check_mode: true
   register: mypackage_check
 
-- name: Allow ports 53 and 67 and 80 and 443
+- name: Allow ports 53 and 67 and 80 and 443  # noqa no-handler
   ansible.builtin.ufw: rule={{ item.rule }} port={{ item.port }} proto={{ item.proto }}
   with_items:
     - {rule: 'allow', port: '80', proto: 'any'}
@@ -36,4 +36,4 @@
     - {rule: 'allow', port: '443', proto: 'any'}
   notify:
     - restart ufw
-  when: not mypackage_check.changed 
+  when: not mypackage_check.changed

@@ -1,6 +1,6 @@
 ---
 - name: Download executable from rumble
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ rumble_url }}"
     dest: /tmp/rumble-explorer.bin
     owner: root

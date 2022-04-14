@@ -47,11 +47,7 @@
   ansible.builtin.apt:
     package: ufw
     state: present
-  register: ufw
-
-- name: Reboot server after install of ufw
-  reboot:
-  when: ufw.changed
+  notify: restart server
 
 - name: Configure ufw defaults
   ansible.builtin.ufw: direction={{ item.direction }} policy={{ item.policy }}
