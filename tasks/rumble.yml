@@ -1,0 +1,17 @@
+---
+- name: Download executable from rumble
+  get_url:
+    url: "{{ rumble_url }}"
+    dest: /tmp/rumble-explorer.bin
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Install rumble-explorer
+  ansible.builtin.command: /tmp/rumble-explorer.bin
+  changed_when: true
+
+- name: Remove install file
+  ansible.builtin.file:
+    path: /tmp/rumble-explorer.bin
+    state: absent

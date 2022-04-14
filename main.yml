@@ -1,0 +1,45 @@
+---
+- hosts: raspiss
+  become: true
+
+  pre_tasks:
+    - name: Load configuration
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - config.yml
+
+  tasks:
+    - name: Basic configuration
+      ansible.builtin.import_tasks: tasks/basic_setup.yml
+
+  handlers:
+    - ansible.builtin.import_tasks: handlers.yml
+
+- hosts: docker
+  become: true
+
+  pre_tasks:
+    - name: Load configuration
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - config.yml
+
+  tasks:
+    - name: Install Docker
+      ansible.builtin.import_tasks: tasks/docker.yml
+
+- hosts: docker
+  become: true
+
+  pre_tasks:
+    - name: Load configuration
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - config.yml
+
+  tasks:
+    - name: Install PiHole
+      ansible.builtin.import_tasks: tasks/pi_hole.yml
+    
+  handlers:
+    - ansible.builtin.import_tasks: handlers.yml

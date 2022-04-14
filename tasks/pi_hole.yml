@@ -1,0 +1,39 @@
+---
+- name: Create Pi-hole folder on Pi.
+  ansible.builtin.file:
+    path: "~/pi-hole"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Copy Pi-hole docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/pi-hole-docker-compose.yml.j2
+    dest: "~/pi-hole/docker-compose.yml"
+    mode: '0640'
+  become: false
+  notify: restart pihole
+
+- name: Ensure Pi-hole is running.
+  community.docker.docker_compose:
+    project_src: "~/pi-hole/"
+    build: false
+  become: false
+
+- name: Check if ufw package is installed
+  package:
+    name: ufw
+    state: present
+  check_mode: true
+  register: mypackage_check
+
+- name: Allow ports 53 and 67 and 80 and 443
+  ansible.builtin.ufw: rule={{ item.rule }} port={{ item.port }} proto={{ item.proto }}
+  with_items:
+    - {rule: 'allow', port: '80', proto: 'any'}
+    - {rule: 'allow', port: '53', proto: 'any'}
+    - {rule: 'allow', port: '67', proto: 'udp'}
+    - {rule: 'allow', port: '443', proto: 'any'}
+  notify:
+    - restart ufw
+  when: not mypackage_check.changed 

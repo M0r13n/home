@@ -1,0 +1,13 @@
+---
+- name: restart ufw
+  service: name=ufw state=restarted
+
+- name: restart server
+  reboot:
+
+- name: restart pihole
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/pi-hole/"
+    build: false
+    restarted: true
+  become: false

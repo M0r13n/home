@@ -1,0 +1,5 @@
+---
+timezone: Europe/Berlin
+ssh_port: 22
+pihole_password: foofoo
+rumble_url: https://console.rumble.run/download/explorer/DT4359F5F56F229FC279766FD16F24/62582250/rumble-explorer-linux-arm64.bin
