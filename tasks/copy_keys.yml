@@ -1,0 +1,11 @@
+---
+- name: Delete the authorized keys file
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.ssh/authorized_keys"
+    state: absent
+
+- name: Add the current users key as a public key
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"

@@ -1,5 +1,5 @@
 ---
-- hosts: raspiss
+- hosts: raspis
   become: true
 
   pre_tasks:
@@ -11,6 +11,9 @@
   tasks:
     - name: Basic configuration
       ansible.builtin.import_tasks: tasks/basic_setup.yml
+
+    - name: Setup keybased SSH access
+      ansible.builtin.import_tasks: tasks/copy_keys.yml
 
   handlers:
     - ansible.builtin.import_tasks: handlers.yml
@@ -28,7 +31,7 @@
     - name: Install Docker
       ansible.builtin.import_tasks: tasks/docker.yml
 
-- hosts: docker
+- hosts: pihole
   become: true
 
   pre_tasks:

@@ -1,0 +1,27 @@
+
+- hosts: all
+  become: true
+
+  tasks:
+    - name: Load configuration
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - config.yml
+
+
+    - name: Download executable from rumble
+      ansible.builtin.get_url:
+        url: "{{ rumble_url }}"
+        dest: /tmp/rumble-explorer.bin
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Install rumble-explorer
+      ansible.builtin.command: /tmp/rumble-explorer.bin
+      changed_when: true
+
+    - name: Remove install file
+      ansible.builtin.file:
+        path: /tmp/rumble-explorer.bin
+        state: absent
