@@ -10,4 +10,5 @@
     project_src: "{{ config_dir }}/pi-hole/"
     build: false
     restarted: true
+    remove_orphans: true
   become: false

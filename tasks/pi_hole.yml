@@ -18,6 +18,7 @@
   community.docker.docker_compose:
     project_src: "~/pi-hole/"
     build: false
+    pull: true
   become: false
 
 - name: Check if ufw package is installed

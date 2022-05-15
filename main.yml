@@ -46,3 +46,16 @@
 
   handlers:
     - ansible.builtin.import_tasks: handlers.yml
+
+- hosts: rumble
+  become: true
+
+  pre_tasks:
+    - name: Load configuration
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - config.yml
+    
+  tasks:
+    - name: Install Rubmle
+      ansible.builtin.import_tasks: tasks/rumble.yml
